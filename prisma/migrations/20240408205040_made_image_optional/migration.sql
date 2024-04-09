@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Hospital" ALTER COLUMN "Stars" DROP NOT NULL,
+ALTER COLUMN "Image" DROP NOT NULL;
