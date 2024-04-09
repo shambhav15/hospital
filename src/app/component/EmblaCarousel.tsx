@@ -24,7 +24,7 @@ export function EmblaCarousel() {
 
   return (
     <>
-      <div className="overflow-hidden object-contain" ref={emblaRef}>
+      <div className="overflow-hidden object-contain mb-10" ref={emblaRef}>
         <div className="flex">
           {hospitalsData.map((hospital, index) => (
             <div key={index} className="w-1/5 flex-shrink-0">
