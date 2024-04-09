@@ -21,8 +21,8 @@ model User {
 }
 
 model Hospital {
-  H_No                      String @unique
-  Hospital_Name             String 
+  H_No                      String    @unique
+  Hospital_Name             String
   Place                     String
   Total_Doctors             Int
   Total_Beds                Int
@@ -31,5 +31,25 @@ model Hospital {
   Specialties_Present       String
   Total_Specialties_Present Int
   Stars                     Int?
-  Image                     String? 
+  Image                     String?
+  Booking                   Booking[]
+}
+
+
+model Booking {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  date         DateTime
+  address      String
+  aadhar       String
+  payment      String
+  facility     String
+  hospital     Hospital @relation(fields: [hospitalH_No], references: [H_No])
+  problem      String
+  description  String
+  hospitalH_No String
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

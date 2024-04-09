@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import hospitalsDataOffline from "@/hospitalData";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -33,8 +33,11 @@ type HospitalDataT = {
 };
 
 const FormPage = () => {
+  const router = useRouter();
   const searchParams = useParams();
   const [hospitalsData, setHospitalsData] = useState<HospitalDataT[]>([]);
+  const [submitting, setIsSubmitting] = useState(false);
+  const [startDate, setStartDate] = useState(new Date().toJSON().slice(0, 10));
 
   const hospitalOffline = hospitalsDataOffline.find(
     (hos) => hos.H_No === searchParams.id
@@ -45,12 +48,22 @@ const FormPage = () => {
     ? hospitalOffline
     : hospitalsData.find((hos) => hos.H_No === searchParams.id);
 
+  console.log(hospital);
+
+  const hospitalName = hospital?.Hospital_Name;
+  const h_no = hospital?.H_No;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    date: startDate,
     address: "",
-    adharNumber: "",
+    aadhar: "",
+    payment: "1",
+    facility: "General",
     problem: "",
+    hospital: hospitalName,
+    hospitalH_No: h_no,
     description: "",
   });
 
@@ -59,10 +72,19 @@ const FormPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(formData);
-    // router.push(`/success?name=${formData.name}&email=${formData.email}`);
+  const handleSubmit = async (data: any) => {
+    try {
+      data.preventDefault();
+      // setIsSubmitting(true);
+      const response = await axios.post("http://localhost:3000/api/book", formData);
+      console.log("Response data:", response.data);
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      // setIsSubmitting(false);
+      console.log("Error submitting form:", error);
+      console.log(formData);
+    }
   };
 
   useEffect(() => {
@@ -130,6 +152,14 @@ const FormPage = () => {
             className="container w-full flex p-3 space-y-4"
           >
             <div className="">
+              <input
+                type="text"
+                value={hospital?.Hospital_Name}
+                name="hospital"
+                id="hospital"
+                className="w-full px-3 py-2 underline-offset-1 rounded-md outline-none mb-2 text-xl focus:border-blue-500"
+                required
+              />
               <Flex width={"100%"} gap={"5"}>
                 <div className="w-full">
                   <label htmlFor="name" className="block mb-1">
@@ -181,9 +211,9 @@ const FormPage = () => {
                 </label>
                 <input
                   type="number"
-                  id="adharNumber"
-                  name="adharNumber"
-                  value={formData.adharNumber}
+                  id="aadhar"
+                  name="aadhar"
+                  value={formData.aadhar}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                   required
@@ -191,6 +221,9 @@ const FormPage = () => {
               </div>
               <Box className="space-y-4" mt={"2"} maxWidth="600px">
                 <RadioCards.Root
+                  onValueChange={(val) => {
+                    setFormData((prevData) => ({ ...prevData, payment: val }));
+                  }}
                   defaultValue="1"
                   columns={{ initial: "1", sm: "3" }}
                 >
@@ -229,7 +262,15 @@ const FormPage = () => {
                   </RadioCards.Item>
                 </RadioCards.Root>
                 <Flex gap={"4"}>
-                  <Select.Root defaultValue="General">
+                  <Select.Root
+                    onValueChange={(val) => {
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        facility: val,
+                      }));
+                    }}
+                    defaultValue="General"
+                  >
                     <Select.Trigger />
                     <Select.Content>
                       <Select.Group>
@@ -243,6 +284,15 @@ const FormPage = () => {
                       </Select.Group>
                     </Select.Content>
                   </Select.Root>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    min={startDate}
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                  />
                 </Flex>
               </Box>
               <div>
