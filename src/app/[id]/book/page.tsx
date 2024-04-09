@@ -48,8 +48,6 @@ const FormPage = () => {
     ? hospitalOffline
     : hospitalsData.find((hos) => hos.H_No === searchParams.id);
 
-  console.log(hospital);
-
   const hospitalName = hospital?.Hospital_Name;
   const h_no = hospital?.H_No;
 
@@ -76,14 +74,16 @@ const FormPage = () => {
     try {
       data.preventDefault();
       // setIsSubmitting(true);
-      const response = await axios.post("http://localhost:3000/api/book", formData);
+      let dataa = JSON.stringify(formData);
+      const response = await axios.post("/api/book", dataa, {
+        headers: { "Content-Type": "application/json" },
+      });
       console.log("Response data:", response.data);
-      router.push("/");
-      router.refresh();
+      // router.push("/");
+      // router.refresh();
     } catch (error) {
-      // setIsSubmitting(false);
       console.log("Error submitting form:", error);
-      console.log(formData);
+      // console.log(formData);
     }
   };
 
@@ -92,6 +92,7 @@ const FormPage = () => {
       try {
         const response = await axios.get("http://localhost:3000/api/hospital");
         const data: HospitalDataT[] = response.data;
+
         setHospitalsData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -153,6 +154,7 @@ const FormPage = () => {
           >
             <div className="">
               <input
+                readOnly
                 type="text"
                 value={hospital?.Hospital_Name}
                 name="hospital"

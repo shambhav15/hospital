@@ -1,20 +1,22 @@
-// 'use clinet';
+"use client";
 import { Button, Flex, Text } from "@radix-ui/themes";
-// import Carousel from "./component/Carousel";
-import Link from "next/link";
-import prisma from "../../prisma/client";
 import { EmblaCarousel } from "./component/EmblaCarousel";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default async function Home() {
-  // const hospitals = await prisma.hospital.findMany({
-  //   orderBy: {
-  //     H_No: "asc",
-  //   },
-  // });
+export default function Home() {
+  useEffect(() => {
+    const fetchNews = async () => {
+      const res = await axios.get("https://medhive-backend.vercel.app/News");
+      const data = await res.data;
+      console.log(data);
+    };
+    fetchNews();
+  }, []);
 
   return (
     <>
-      <EmblaCarousel  />
+      <EmblaCarousel />
       <Flex className="max-w-20" direction="column" gap="2">
         {/* <Button className="outline-none">
           <Link href={`/Book/`}>Book</Link>
