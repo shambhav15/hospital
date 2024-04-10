@@ -21,7 +21,7 @@ model User {
 }
 
 model Hospital {
-  H_No                      String  @unique
+  H_No                      String    @unique
   Hospital_Name             String
   Place                     String
   Total_Doctors             Int
@@ -32,11 +32,11 @@ model Hospital {
   Total_Specialties_Present Int
   Stars                     Int?
   Image                     String?
-  // Booking                   Booking[]
+  Booking                   Booking[]
 }
 
 model Booking {
-  id       String @id @default(cuid())
+  id       String   @id @default(cuid())
   name     String
   email    String
   date     String
@@ -44,7 +44,7 @@ model Booking {
   aadhar   String
   payment  String
   facility String
-  hospital String
+  hospital Hospital @relation(fields: [hospitalH_No], references: [H_No])
 
   problem      String
   description  String

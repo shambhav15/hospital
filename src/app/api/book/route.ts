@@ -3,11 +3,11 @@ import prisma from "../../../../prisma/client";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export async function POST(request: NextRequest) {
-  const { isAuthenticated } = await getKindeServerSession();
-  const isLoggedIn = await isAuthenticated();
-  if (!isLoggedIn) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // const { isAuthenticated } = await getKindeServerSession();
+  // const isLoggedIn = await isAuthenticated();
+  // if (!isLoggedIn) {
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // }
   try {
     const body = await request.json();
     const newBook = await prisma.booking.create({
