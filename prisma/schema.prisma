@@ -36,18 +36,18 @@ model Hospital {
 }
 
 model Booking {
-  id       String @id @default(cuid())
-  name     String
-  email    String
-  date     String
-  address  String
-  aadhar   String
-  payment  String
-  facility String
-  hospital String
+  id          String @id @default(cuid())
+  name        String
+  email       String
+  aadhar      String
+  address     String
+  payment     String
+  facility    String
+  problem     String
+  description String
+  date        String
+  hospital    String
 
-  problem      String
-  description  String
   hospitalH_No String
 
   createdAt DateTime @default(now())
