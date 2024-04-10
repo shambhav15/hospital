@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
         date: body.date,
         problem: body.problem,
         facility: body.facility,
-        hospital: body.hospital,
-        hospitalH_No: body.hospitalH_No,
+        // hospital: body.hospital,
+        // hospitalH_No: body.hospitalH_No,
       },
     });
     return NextResponse.json(newBook, { status: 201 });

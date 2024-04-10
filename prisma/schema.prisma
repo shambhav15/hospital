@@ -36,7 +36,7 @@ model Hospital {
 }
 
 model Booking {
-  id       String   @id @default(cuid())
+  id       String @id @default(cuid())
   name     String
   email    String
   date     String
@@ -44,7 +44,7 @@ model Booking {
   aadhar   String
   payment  String
   facility String
-  hospital Hospital @relation(fields: [hospitalH_No], references: [H_No])
+  hospital String
 
   problem      String
   description  String
