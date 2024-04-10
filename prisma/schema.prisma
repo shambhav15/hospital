@@ -32,7 +32,7 @@ model Hospital {
   Total_Specialties_Present Int
   Stars                     Int?
   Image                     String?
-  Booking                   Booking[]
+  // Booking                   Booking[]
 }
 
 model Booking {
